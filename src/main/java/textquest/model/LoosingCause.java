@@ -3,7 +3,6 @@ package textquest.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
@@ -12,7 +11,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LoosingCause extends BaseEntity{
-    public LoosingCause(int id, String text) {
+    public LoosingCause(Long id, String text) {
         super(id, text);
     }
 }
