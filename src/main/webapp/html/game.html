@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">-->
+
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <title>Квест Lord of the wings</title>
+    <link href="/style/main.css" rel="stylesheet">
+    <script src="/script/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<div th:if="${question == null}">
+    <h1>Пролог</h1>
+    <br/>
+    <div> Ты маленький хоббит который живёт в норе под горой. Однажды твой друг маг сообщает тебе, что кольцо, которое ты хранишь у себя уже много лет — могущественный артефакт, который необходимо уничтожить в пламени огненной горы. Неожиданно для самого себя ты оказываешься перед нелёгким выбором: отправиться в путешествие в страну мрака в окружении верных спутников: эльфа Гондураса, человека Барагоза, гнома Сталина и мага Пенделя или остаться дома. От того, какие решения ты будешь принимать, зависит судьба всего Мимоземелья. Кстати, а как тебя зовут?</div>
+    <br>
+
+    <div>
+        <form id="login" th:action="@{/game}" th:object="${username}" method="post">
+            <label>Представься:</label><br>
+            <input type="text" name="username" id="username"><br><br>
+            <input type="submit" value="Отправить">
+        </form>
+    </div>
+</div>
+
+<div th:if="${question != null}">
+
+    <h1 th:text="'Глава' + ${chapterNumber}"></h1>
+    <br/>
+
+    <div th:if="${chapterNumber} == 1">
+        Мы рады вновь приветствовать тебя, о путник. Пройди весь путь с нами заново.
+    </div>
+
+    <div th:utext="${question.text}"></div>
+
+    <div>
+        <form th:action="@{/game}" method="post">
+
+            <!-- Iterate over the list of answers using th:each -->
+            <div th:each="answer, loop : ${answers}">
+                <!-- Radio buttons for each answer -->
+                <label>
+                    <input type="radio" th:name="chosenAnswer" th:value="${answer.id}" th:checked="${loop.index == 0}"/>
+                    <span th:utext="${answer.text}"></span>
+                </label><br/><br/>
+            </div>
+
+            <button type="submit">Ответить</button>
+        </form>
+    </div>
+
+</div>
+
+<h3>Статистика</h3>
+<div>
+    <span th:text="'Количество сыгранных игр:' + ${counter}"/><br>
+    <span th:text="'Побед:' + ${counterWon}"/><br>
+    <span th:text="'Поражений:' + ${counterLost}"/><br>
+    <span th:text="'Ваш IP адрес: ' + ${IP}"/>
+</div>
+
+<script>
+    /*проверка ,что форма не пустая*/
+
+    $("#login").submit(function(e) {
+        e.preventDefault();
+        var username = $.trim($("#username").val());
+        if (username.length > 0) {
+            $.post('/game', {username: username},
+                function(returnedData){
+                    $('body').html(returnedData);
+                });
+        } else {
+            alert('Вы забыли представиться');
+        }
+    });
+
+</script>
+
+
+</body>
+</html>

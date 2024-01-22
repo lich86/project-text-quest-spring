@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Победа!</title>
+  <link href="/style/main.css" rel="stylesheet">
+  <script src="/script/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1>Победа!</h1>
+<div>Поздравляю, <span th:text="${username}"></span>!</div>
+<div>Черный властелин повержен. Вы и ваши спутники возвращаетесь домой героями. Вам почести и слава!</div>
+<div>
+  <form th:action="@{/restart}" method="post">
+    <input type="submit" value="Сыграть ещё раз">
+  </form>
+</div>
+</body>
+</html>
